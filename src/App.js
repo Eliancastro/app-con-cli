@@ -2,8 +2,10 @@ import logo from './logo.svg';
 import './app.css';
 import './card.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import ColorSchemesExample from './components/NavBar';
+import 'bootstrap/dist/js/bootstrap.js';
+import Menu from './components/NavBar';
 import Card from './components/Card';
+import ItemListContainer from './components/ItemListContainer';
 
 function App() {
   return (
@@ -21,7 +23,8 @@ function App() {
         >
           
           Aprendamos React con CoderHouse
-          <ColorSchemesExample/>
+          <Menu/>
+          <ItemListContainer greeting = 'Texto de prueba'/>
           <Card/>
         </a>
       </header>
