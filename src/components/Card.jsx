@@ -1,6 +1,7 @@
 import '../card.css'; 
+import ItemCount from './ItemCount';
 
-function Card( {name, price, imgurl, description}){
+const Card = ( {name, price, imgurl, description}) => {
     
 
     return (
@@ -8,15 +9,16 @@ function Card( {name, price, imgurl, description}){
           <div className="card">
             <div className="img-card">
              <img src={imgurl} alt="imagen" />
-         </div>
+            </div>
             <div className="card-detail">
-            <h2>{name}</h2>
-            <p>{description}</p>
-            <h3>$ {price}</h3>
-            <button text= "ver mas"/>
+             <h2>{name}</h2>
+              <p>{description}</p>
+               <h3>$ {price}</h3>
+            <ItemCount initial ="1" stock ="20"/>
+             <button text= "agregar"/>
             </div>
-            </div>
-            </div>
+          </div>
+        </div>
     
 
     );

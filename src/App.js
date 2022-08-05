@@ -1,9 +1,11 @@
+import React from 'react';
 import logo from './logo.svg';
 import './app.css';
-import './card.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
-import Menu from './components/NavBar';
+import './index'
+import './index.css'
+import  NavBar from './components/NavBar';
 import Card from './components/Card';
 import ItemListContainer from './components/ItemListContainer';
 
@@ -23,7 +25,7 @@ function App() {
         >
           
           Aprendamos React con CoderHouse
-          <Menu/>
+          <NavBar/>
           <ItemListContainer greeting = 'Texto de prueba'/>
           <Card/>
         </a>
