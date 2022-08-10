@@ -8,10 +8,22 @@ import './index.css'
 import  NavBar from './components/NavBar';
 import Card from './components/Card';
 import ItemListContainer from './components/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 function App() {
   return (
     <div className="App">
+      <BrowserRouter>
+         <NavBar/>
+
+      <Routes>
+        <Route path="/" element={<ItemListContainer />} />
+        <Route path="/" element={ <ItemDetailContainer/>} />
+      </Routes>
+
+      </BrowserRouter>
        <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -25,8 +37,8 @@ function App() {
         >
           
           Aprendamos React con CoderHouse
-          <NavBar/>
           <ItemListContainer greeting = 'Texto de prueba'/>
+          <ItemDetailContainer itemid={3}/>
           <Card/>
         </a>
       </header>
