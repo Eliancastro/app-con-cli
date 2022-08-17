@@ -10,6 +10,7 @@ import Card from './components/Card';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CartC from "./contexts/cartContext";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <Route path="/" element={<ItemListContainer />} />
         <Route path="/" element={ <ItemDetailContainer/>} />
       </Routes>
-
+      <CartC/>
       </BrowserRouter>
        <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
