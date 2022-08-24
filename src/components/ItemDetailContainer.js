@@ -1,67 +1,23 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import data from "../../data/data";
+import GetProductos from "./ItemDetails";
+import ItemDetail from "./ItemDetail";
 
-function ItemDetailContainer(){
-    const [item, setItem] = useState();
+function ItemDetailContainer() {
+    let idURL = useParams().id;
+    const [item, setItem] = useState([]);
+    
+    useEffect(()=>{
+        GetProductos(idURL)
+        .then(respuesta => setItem(respuesta))
+        .catch(() => alert("No se encontro el producto"))
+    }, []);
 
-    const id = useParams().id;
-
-function traerProducto(){
-    return new Promise(
-        (resolve, reject) => {
-            resolve(dataJSON[id])
-        }
-    );
+  return (
+    <div>
+        <ItemDetail categoria={item.category} id={item.id} title={item.title} stock={item.stock} description={item.description} img={item.img} initial={1}/>
+    </div>
+  )
 }
-
-
-    useEffect(() => {
-        traerProducto()
-            .then((respuesta) => setItem(respuesta))
-            .catch((err) => alert(error));
-    },[]);
-
-    return (
-        <div className="main">
-            <div className="card">
-                <div className="card-img">
-                    <img src={item.img} alt="img"/>
-                </div>
-                <div className="card-detail">
-                    <h2>{item.title}</h2>
-                    <p>{item.category}</p>
-                    <h3>${item.price}</h3>
-                </div>
-            </div>
-
-        </div>
-    )
-}
-
-/*import React from "react";
-import { useParams } from "react-router-dom";
-
-function ItemDetailContainer(){
-    console.log(useParams());
-
-    let itemsData = [
-
-    ];
-
-    return (
-        <div>
-            <h1>Detalle del producto</h1>
-            <div>
-                <h3>producto 1</h3>
-                <img src="../Cerveza.png" alt="producto 1" />
-                <p>Lorem, ipsum dolor sit amet consectetur.</p>
-                <h4>Precio: $1000</h4>
-            </div>
-        </div>
-    );
-}
-
-export default ItemDetailContainer;*/
 
 export default ItemDetailContainer;

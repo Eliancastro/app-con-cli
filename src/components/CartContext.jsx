@@ -1,59 +1,55 @@
-import React, { createContext, useState, useEffect } from 'react'
+import { createContext, useState } from "react";
 
-export const CartContext = createContext();
-const { Provider } = CartContext;
+export const cartContext = createContext();
 
-const CartC = ({ children }) => {
+export function CartProvider ({children}) {
     const [cart, setCart] = useState([]);
-    const [qnt, setQnt] = useState(0);
 
-    const getQtyProducts = () => {
-        let quantity = 0;
-        cart.forEach(product => quantity += product.quantity);
-        setQnt(quantity);
+    let copyCart = [...cart];
+    //Agregar un producto, previamente valida con isInCart, si existe solo actualiza la cantidad, sino lo agrega.
+    function addToCart(item, quantity){
+        if(!isInCart(item.id)){
+            copyCart.push( {...item, quantity} );
+            setCart(copyCart);
+        } else {
+            let cartUpdate = cart.map((prod) => {
+                if(prod.id === item.id){
+                    let productUpdate = {
+                        ...prod,
+                        quantity: parseInt(quantity + prod.quantity),
+                    }
+                    return productUpdate
+                } else {
+                    return prod
+                }
+            })
+            setCart(cartUpdate)
+        }
     }
-
-    useEffect(() => {
-        getQtyProducts();
-        
-    }, [cart])
-
-    const addProduct = (product) => {
-        if (isInCart(product.id)) {
-            const found = cart.find(p=> p.id === product.id);
-            const index = cart.indexOf(found);
-            const aux = [...cart];
-            aux[index].qnt += product.qnt;
-            setCart(aux);
-        }else{
-            setCart([...cart, product]);
-        };
+    //Validacion si un producto ya existe en el cart por su ID
+    function isInCart (id){
+        return (cart.some((itemInCart) => itemInCart.id === id))
     }
-
-    const deleteProduct = (id) => {
-        setCart(cart.filter(product => product.id !== id))
-    };
-
-    const isInCart = (id) => {
-        return cart.some(cart => cart.id === id)
-    }
-
-    const clear = () => {
+    //Eliminar todos los productos del cart
+    function clearCart (){
         setCart([])
-        setQnt(0);
     }
-
-    const calcularTotal = () => {
-        return cart.reduce((acum, actual)=> acum + actual.price * actual.qnt, 0)
-        
-    };
+    //Eliminar un producto del cart
+    function removeItem (item){
+        const itemRemove = findItem(item.id);
+        const indexItem = copyCart.indexOf(itemRemove);
+        copyCart.splice(indexItem, 1);
+        setCart(copyCart);
+        console.log(copyCart);
+    }
+    //Buscar un item por su ID
+    function findItem(id){
+        return (copyCart.find(item => item.id === parseInt(id)))
+    }
 
     return (
-        <Provider value={{cart, addProduct, deleteProduct, calcularTotal, clear, setQnt, setCart, qnt}}>
-            { children }
-        </Provider>
+        <cartContext.Provider value={ {cart, addToCart, clearCart, removeItem, isInCart} }>
+            {children}
+        </cartContext.Provider>
     )
-
 }
-
-export default CartC;

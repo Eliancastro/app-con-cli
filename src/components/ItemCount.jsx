@@ -1,22 +1,37 @@
-import React, {useState}  from "react";
+import React from 'react';
 
-function ItemCount(props){
-    let [count, setCount] = useState(1);
+function ItemCount({stock, initial, onAdd}) {
+    const [count, setCount] = React.useState(initial);
 
-    const Increment = () => 
-    count >= props.initial && count < props.stock
-    ? setCount(count + 1) : setCount(count + 0);
+    const addQuant = () => {
+      if(count < stock){
+        setCount (count + 1)
+      }
+      
+    }
+    
+    const removeQuant = () => {
+      if(count > 1){
+        setCount(count - 1)
+      }
+      
+    }
 
-    const Decrement = () =>
-    count > props.initial ? setCount(count - 1) : setCount(count - 0);
-
-    return(
-        <div>
-            <button onclick={Increment}>Mas</button>
-            <hr />
-            <button onclick={Decrement}>Menos</button>
-        </div>
-    )
+    
+  return (
+    <> 
+        
+          <div className='d-flex justify-content-center align-items-baseline'>
+            <button type="button" className="btn btn-primary" onClick={removeQuant}>-</button>
+            <p className='mx-2'>Cantidad: {count} </p>
+            <button type="button" className="btn btn-primary" onClick={addQuant}>+</button>
+          </div>
+          <div className='text-center'>
+            <button className="btn btn-primary mb-3" type="button" onClick={()=> onAdd(count)}>Agregar al carrito</button>
+          </div>
+        </>
+    
+  )
 }
 
 export default ItemCount;

@@ -1,4 +1,4 @@
-const itemProductos= [
+const cardsJSON = [
     {
         id: 1,
         title: "Cerveza",
@@ -41,10 +41,15 @@ const itemProductos= [
     },
 ];
 
-function getProductos(){
-    return new Promise((resolve)=>{
-        setTimeout(()=> resolve(cards), 500);
+function GetProductos(id){
+    
+    return new Promise((resolve, reject)=>{
+        let itemEncontrado = cardsJSON.find(element => element.id == id);
+        if (itemEncontrado === undefined || null){
+            reject("No se encontro el producto")
+        }
+        resolve(itemEncontrado);
     });
 }
 
-export default getProductos;
+export default GetProductos;
