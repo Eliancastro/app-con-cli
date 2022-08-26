@@ -5,10 +5,9 @@ import { CartContext } from "./CartContext";
  
 
 function ItemDetail({title, stock, img, description, initial, id, categoria}) {
-
   const qtyCart = 0;
   const [quantityInCart, setQuantityInCart] = useState(qtyCart);
-  const {addToCart} = useContext(cartContext);
+  const {addToCart} = useContext(CartContext);
 
   function handleAdd(count){
     setQuantityInCart(count);
