@@ -1,46 +1,65 @@
-import React, {useState, useEffect} from "react";
-import data from "../../data/data";
-import Productos from "./Productos";
-import Card from "../components/Card";
+import React, { useState, useEffect } from "react";
+import '../App.css'
+import ItemList from "./ItemList";
+import getProductos from "./Item";
+import {useParams} from "react-router-dom";
 
-function traerProducto(){
-    return new Promise((resolve, reject) =>{
-        setTimeout(() => resolve(data), 1500);    
-    });
+import db from "../services/firestore";
+import {getDocs, collection } from "firebase/firestore"
+
+function ItemListContainer() {
+  
+  
+  const [itemProductos, setData] = useState([])
+  const idProducto = useParams().id
+  const products = []
+  
+  
+  
+
+  function getProducto() {
+    return new Promise((resolve => {
+      
+      const productosCollection = collection(db, "productos")
+
+      getDocs(productosCollection).then(snapshot =>{
+        const docsData = snapshot.docs.map(doc => {
+          return {... doc.data(), id:  doc.id}
+        })
+        resolve(docsData)
+        
+      })
+      
+    }))
+  } 
+
+  
+
+  useEffect(() => {
+    getProducto().then(producto => {
+      
+      let itemFiltrado = producto.filter((elemento) => elemento.category === idProducto)
+
+      if (idProducto === undefined) {
+        setData(producto) 
+      }
+      else {
+        setData(itemFiltrado)
+      
+      }
+    })
+  
+  }, [idProducto])
+  
+  return (
+    
+    <>
+    <p className="titulo-productos">{idProducto}</p>
+
+    <ItemList getProductos={getProductos}/>
+    </>
+  )
+
 }
 
-const ItemListContainer = () =>{
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        traerProducto()
-        .then((respuesta) => {
-            setProducts(respuesta);
-        })
-        .catch((error) => {
-            console.log(error);
-            });
-
-            
-         }, []);
-        
-    return (
-        <div className="container mx-auto mt-5">
-            
-            {products.map((item) => {
-                return (
-                    <Card 
-                        title={item.title}
-                        price={item.price}
-                        category={item.category}
-                        img={item.img}
-                    />
-                );
-            })}
-            <h1>{greeting}</h1>
-        </div>
-    );
-    
-};
-
-export default ItemListContainer;
+export default ItemListContainer

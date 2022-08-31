@@ -1,22 +1,22 @@
-import React, {useEffect, useContext} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CartContext } from "./CartContext"
+import React from 'react'
+import img from '../../public/fondo-bodega.jpg'
+import { useContext } from 'react'
+import { CartContext } from './CartContext';
+import {NavLink, Link} from "react-router-dom";
 
-const CartWidget = () => {
-        const { cart, qnt, setQnt } = useContext(CartContext);
-      
-        useEffect(() => {
-          if (cart.length === 0) {
-            setQnt(0);
-          }
-        }, [cart, setQnt]);
 
-    return(
-        
-            <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
-
-       
-    );
+function CartWidget() {
+  const { cart } = useContext(CartContext);
+  
+  if(cart.length > 0)
+      return (
+        <>
+        <NavLink to={`/cart`} className='botones-navbar'><p><img src={img} className="logoCarrito" alt="10"></img>{cart.length}</p></NavLink>
+        </>
+      )
+  else{
+    
+  }
 }
 
-export default CartWidget;
+export default CartWidget

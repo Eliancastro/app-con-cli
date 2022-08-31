@@ -1,23 +1,62 @@
-import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
-import GetProductos from "./ItemDetails";
+import React, { useState, useEffect } from "react";
 import ItemDetail from "./ItemDetail";
+import getProductos from "./Item"
+import {useParams} from "react-router-dom";
+
+import db from "../services/firestore";
+import {getDocs, collection } from "firebase/firestore"
+
 
 function ItemDetailContainer() {
-    let idURL = useParams().id;
-    const [item, setItem] = useState([]);
+  const [item, setItem] = useState({});
+  let id = useParams().id
+  console.log(item[0])
+  let x = id
+
+
+
+  
     
-    useEffect(()=>{
-        GetProductos(idURL)
-        .then(respuesta => setItem(respuesta))
-        .catch(() => alert("No se encontro el producto"))
+  function traerProductos(){
+    return new Promise((resolve => {
+      
+      const productosCollection = collection(db, "productos")
+    
+      getDocs(productosCollection).then(snapshot =>{
+        const docsData = snapshot.docs.map(doc => {
+          return {... doc.data(), id:  doc.id}
+        })
+
+        const itemFiltrado = docsData.filter((elemento) => elemento.id === x)
+        resolve(itemFiltrado)
+        console.log(docsData)
+      })
+      
+    }))
+  }
+  
+    useEffect(() => {
+      traerProductos()
+        .then((respuesta) => setItem(respuesta[0])).catch((error) => alert(error))
     }, []);
+    
+  
+    return (
+      
+      <ItemDetail 
+            id={item.id}
+            pictureUrl={item.pictureUrl}
+            name={item.title}
+            price={item.price}
+            description={item.description}
+            stock={item.stock}
+      
+            
+      />
+      
+  
+    )
+  
+  }
 
-  return (
-    <div>
-        <ItemDetail categoria={item.category} id={item.id} title={item.title} stock={item.stock} description={item.description} img={item.img} initial={1}/>
-    </div>
-  )
-}
-
-export default ItemDetailContainer;
+export default ItemDetailContainer

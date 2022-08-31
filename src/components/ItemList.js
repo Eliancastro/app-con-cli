@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import getProductos from "./Item";
 import { useParams } from "react-router-dom";
-import CardItem from "./CardItem";
+import CartItem from "./CartItem";
 
 function ItemList(props){
     let { idCategory } = useParams();
@@ -28,7 +28,7 @@ function ItemList(props){
                 {
                     data.map(item => (
                     <div className="col-md-4 mb-2" key={item.id}>
-                        <CardItem id={item.id} initial={1} stock={item.stock} title={item.title} img={item.img} description={item.description}/>
+                        <CartItem id={item.id} initial={1} stock={item.stock} title={item.title} img={item.img} description={item.description}/>
                     </div> 
                     ))
             

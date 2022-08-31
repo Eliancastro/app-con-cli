@@ -1,4 +1,4 @@
-const itemProductos= [
+const data= [
     {
         id: 1,
         title: "Cerveza",
