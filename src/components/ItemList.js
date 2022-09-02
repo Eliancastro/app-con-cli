@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import getProductos from "./Item";
 import { useParams } from "react-router-dom";
-import CartItem from "./CartItem";
+import CartItem from "./CardItem";
 
 function ItemList(props){
     let { idCategory } = useParams();

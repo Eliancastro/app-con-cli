@@ -1,7 +1,9 @@
 import { useContext } from 'react'
-import { CartContext } from './CartContext';
+import { CartContext } from './cartContext';
 import CartItem from './CartItem';
 import {NavLink, Link} from "react-router-dom";
+import UserForm from './Form';
+
 
 function Cart() {
     const { cart, addToCart, removeItem, deleteAll } = useContext(CartContext);
@@ -53,6 +55,11 @@ function Cart() {
                     })}
                     <p className='boton-no-products'>Total de su compra: ${totalFinal}</p>
                     <button  className="delete-all" onClick={deleteAll}> Vaciar Carrito </button>
+                </div>
+                <div className='cards'>
+                    <div className='div-cards'>
+                    <UserForm cart={cart} total={totalFinal}/>
+                    </div>
                 </div>
             </div>
         )
