@@ -3,7 +3,7 @@ import ItemDetail from "./ItemDetail";
 import getProductos from "./Item"
 import {useParams} from "react-router-dom";
 
-import db from "../services/firestore";
+import db from "./firestore";
 import {getDocs, collection } from "firebase/firestore"
 
 
